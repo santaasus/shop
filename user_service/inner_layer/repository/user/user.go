@@ -1,10 +1,13 @@
 package user
 
 import (
+	"encoding/json"
 	"errors"
+	rDB "shop/db_service/redis"
 	db "shop/user_service/inner_layer/db"
 	domainErrors "shop/user_service/inner_layer/domain/errors"
 	domain "shop/user_service/inner_layer/domain/user"
+	"strconv"
 
 	_ "github.com/lib/pq"
 )
@@ -13,6 +16,14 @@ type Repository struct {
 }
 
 func (Repository) GetUserByID(id int) (*domain.User, error) {
+	value, _ := rDB.GetValueBy(rDB.USER + strconv.Itoa(id))
+	if value != "" {
+		var user domain.User
+		err := json.Unmarshal([]byte(value), &user)
+
+		return &user, err
+	}
+
 	user, err := db.GetUserByID(id)
 	if err != nil {
 		return nil, &domainErrors.AppError{
@@ -20,6 +31,8 @@ func (Repository) GetUserByID(id int) (*domain.User, error) {
 			Type: domainErrors.ValidationError,
 		}
 	}
+
+	rDB.SaveBy(rDB.USER+strconv.Itoa(id), user)
 
 	return user, nil
 }
@@ -75,6 +88,8 @@ func (Repository) DeleteUserByID(userId int) error {
 	if err != nil {
 		return err
 	}
+
+	rDB.DeleteValueBy(rDB.USER + strconv.Itoa(userId))
 
 	return nil
 }
