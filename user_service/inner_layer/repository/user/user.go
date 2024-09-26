@@ -12,6 +12,14 @@ import (
 	_ "github.com/lib/pq"
 )
 
+type IRepository interface {
+	GetUserByID(id int) (*domain.User, error)
+	GetUserByParams(params map[string]any) (*domain.User, error)
+	CreateUser(newUser *domain.User) (*domain.User, error)
+	UpdateUser(updateUser domain.UpdateUser, userId int) error
+	DeleteUserByID(userId int) error
+}
+
 type Repository struct {
 }
 

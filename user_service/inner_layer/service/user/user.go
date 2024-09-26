@@ -8,7 +8,7 @@ import (
 )
 
 type Service struct {
-	Repository *repository.Repository
+	Repository repository.IRepository
 }
 
 func (s *Service) CreateUser(user *userDomain.NewUser) (*userDomain.User, error) {

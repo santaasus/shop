@@ -10,7 +10,7 @@ import (
 )
 
 type Service struct {
-	UserRepository repository.Repository
+	UserRepository repository.IRepository
 }
 
 func (s *Service) Login(login *domain.LoginUser) (*AuthenticatedUser, error) {
@@ -25,7 +25,7 @@ func (s *Service) Login(login *domain.LoginUser) (*AuthenticatedUser, error) {
 	userParams := map[string]any{"email": login.Email}
 	domainUser, err := s.UserRepository.GetUserByParams(userParams)
 	if err != nil {
-		return &AuthenticatedUser{}, err
+		return nil, err
 	}
 
 	if domainUser.ID == 0 {
@@ -47,12 +47,12 @@ func (s *Service) Login(login *domain.LoginUser) (*AuthenticatedUser, error) {
 
 	accessToken, err := security.GenerateJWTToken(domainUser.ID, security.Access)
 	if err != nil {
-		return &AuthenticatedUser{}, err
+		return nil, err
 	}
 
 	refreshToken, err := security.GenerateJWTToken(domainUser.ID, security.Refresh)
 	if err != nil {
-		return &AuthenticatedUser{}, err
+		return nil, err
 	}
 
 	return secAuthUserMapper(domainUser, &SecurityData{
@@ -66,7 +66,7 @@ func (s *Service) Login(login *domain.LoginUser) (*AuthenticatedUser, error) {
 func (s *Service) AccessTokenByRefreshToken(refreshToken string) (*AuthenticatedUser, error) {
 	claims, err := security.VerifyTokenAndGetClaims(refreshToken, "refresh")
 	if err != nil {
-		return &AuthenticatedUser{}, err
+		return nil, err
 	}
 
 	domainUser, err := s.UserRepository.GetUserByID(claims["id"].(int))
@@ -79,6 +79,10 @@ func (s *Service) AccessTokenByRefreshToken(refreshToken string) (*Authenticated
 	}
 
 	accessToken, err := security.GenerateJWTToken(domainUser.ID, "access")
+	if err != nil {
+		return nil, err
+	}
+
 	nextExpTime := int64(claims["exp"].(float64))
 
 	return secAuthUserMapper(domainUser, &SecurityData{

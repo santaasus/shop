@@ -8,13 +8,13 @@ import (
 )
 
 func UserRoutes(router *gin.RouterGroup, controller *controller.Controller) {
-	group := router.Group("/user")
-	JWTGroup := group.Group("/exist")
+	group := router.Group(USER_GROUP)
+	JWTGroup := group.Group(EXIST_USER_GROUP)
 	JWTGroup.Use(middleware.AuthJWTMiddleware())
 	{
-		group.POST("/create", controller.CreateUser)
-		JWTGroup.GET("/:id", controller.GetUser)
-		JWTGroup.PUT("/update/:id", controller.UpdateUser)
-		JWTGroup.DELETE("/delete/:id", controller.DeleteUser)
+		group.POST(CREATE_USER_PATH, controller.CreateUser)
+		JWTGroup.GET(GET_USER_PATH+":id", controller.GetUser)
+		JWTGroup.PUT(UPDATE_USER_PATH+"/:id", controller.UpdateUser)
+		JWTGroup.DELETE(DELETE_USER_PATH+"/:id", controller.DeleteUser)
 	}
 }

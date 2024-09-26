@@ -7,8 +7,8 @@ import (
 )
 
 func AuthRoutes(routerGroup *gin.RouterGroup, controller *controller.Controller) {
-	group := routerGroup.Group("/auth")
+	group := routerGroup.Group(AUTH_GROUP)
 	{
-		group.POST("/login", controller.Login)
+		group.POST(LOGIN_PATH, controller.Login)
 	}
 }

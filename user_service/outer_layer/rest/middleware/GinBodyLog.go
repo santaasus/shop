@@ -36,5 +36,5 @@ func GinBodyLogMiddleware(c *gin.Context) {
 		"created_at":    time.Now().Format(time.DateTime),
 	}
 
-	_ = fmt.Sprintf("server data info %v", bodyInfo)
+	fmt.Printf("server data info %v\n", bodyInfo)
 }

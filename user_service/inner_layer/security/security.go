@@ -50,9 +50,14 @@ type SecureConfig struct {
 }
 
 func GenerateJWTToken(userID int, tokenType string) (appToken *AppToken, err error) {
-	file, errRead := os.ReadFile("config.json")
-	if err := errRead; err != nil {
-		_ = fmt.Errorf("fatal error in config file: %s", err.Error())
+	file, err := os.ReadFile("config.json")
+	wd, _ := os.Getwd()
+
+	if err != nil {
+
+		err = fmt.Errorf("fatal error %s, for current dir %v \n", err.Error(), wd)
+		fmt.Print(err)
+		return
 	}
 
 	var config SecureConfig
