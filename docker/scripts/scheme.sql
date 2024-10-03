@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS users (
 
 CREATE TABLE IF NOT EXISTS products (
     id BIGSERIAL PRIMARY KEY,
-    name varchar(30) NULL
+    product_name varchar(30) NULL
 )
 
 CREATE TABLE IF NOT EXISTS order (
@@ -48,3 +48,5 @@ EXECUTE FUNCTION on_user_updated_at();
 INSERT INTO users (id, user_name, email, first_name, last_name, hash_password, created_at, updated_at)
 VALUES (1, 'santaasus', 'test@yandex.ru', 'Vladimir', 'S', '$2a$10$ARGDNUz.xsfWAaS2KCG2T.h5N3d9NTf77i0Q5dp6FdpYXSJI08ijW', '2024-07-26 05:23:20','2024-07-26 05:23:20');
 
+INSERT INTO products (id, product_name)
+VALUES (1, 'vibrator');

@@ -2,7 +2,7 @@ package auth
 
 import (
 	"errors"
-	errorsDomain "shop/user_service/inner_layer/domain/errors"
+	errorsDomain "github.com/santaasus/errors-handler"
 	domain "shop/user_service/inner_layer/domain/user"
 	repository "shop/user_service/inner_layer/repository/user"
 	security "shop/user_service/inner_layer/security"

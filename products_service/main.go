@@ -1,4 +1,4 @@
-package main
+package productsservice
 
 import (
 	"encoding/json"
@@ -13,9 +13,10 @@ import (
 
 	"shop/user_service/outer_layer/rest/route"
 
+	logger "github.com/santaasus/logger-handler"
 	db "shop/db_service"
-	errorHandler "shop/user_service/outer_layer/rest/error"
-	middleware "shop/user_service/outer_layer/rest/middleware"
+
+	errorHandler "github.com/santaasus/errors-handler"
 
 	limit "github.com/aviddiviner/gin-limit"
 )
@@ -29,6 +30,8 @@ func main() {
 	// https://github.com/aviddiviner/gin-limit/blob/master/README.md
 	router.Use(limit.MaxAllowed(runtime.GOMAXPROCS(0) / 2))
 	router.Use(cors.Default())
+	router.Use(logger.GinBodyLogMiddleware)
+	router.Use(errorHandler.ErrorHandler)
 
 	_, err := db.Connect()
 	if err != nil {
@@ -36,8 +39,6 @@ func main() {
 		panic(err)
 	}
 
-	router.Use(middleware.GinBodyLogMiddleware)
-	router.Use(errorHandler.ErrorHandler)
 	route.ApplicationRoutes(router)
 	startServer(router)
 }
@@ -57,7 +58,7 @@ func startServer(router http.Handler) {
 	}
 
 	server := &http.Server{
-		Addr:           fmt.Sprintf(":%d", config.ServerPort),
+		Addr:           ":8081", //fmt.Sprintf(":%d", config.ServerPort),
 		Handler:        router,
 		ReadTimeout:    time.Minute,
 		WriteTimeout:   time.Minute,
@@ -69,5 +70,5 @@ func startServer(router http.Handler) {
 		panic(err)
 	}
 
-	_ = fmt.Sprintf("server was started %v", server)
+	fmt.Printf("server was started %v", server)
 }

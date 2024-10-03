@@ -9,7 +9,7 @@ import (
 
 	"errors"
 
-	domainErrors "shop/user_service/inner_layer/domain/errors"
+	domainErrors "github.com/santaasus/errors-handler"
 
 	"github.com/golang-jwt/jwt/v5"
 	"golang.org/x/crypto/bcrypt"

@@ -3,7 +3,7 @@ package auth
 import (
 	"net/http"
 
-	domainErrors "shop/user_service/inner_layer/domain/errors"
+	domainErrors "github.com/santaasus/errors-handler"
 	service "shop/user_service/inner_layer/service/auth"
 
 	"github.com/gin-gonic/gin"

@@ -3,9 +3,9 @@ package user
 import (
 	"encoding/json"
 	"errors"
+	domainErrors "github.com/santaasus/errors-handler"
 	rDB "shop/db_service/redis"
 	db "shop/user_service/inner_layer/db"
-	domainErrors "shop/user_service/inner_layer/domain/errors"
 	domain "shop/user_service/inner_layer/domain/user"
 	"strconv"
 

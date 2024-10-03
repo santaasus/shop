@@ -2,8 +2,8 @@ package user
 
 import (
 	"errors"
+	domainErrors "github.com/santaasus/errors-handler"
 	"net/http"
-	domainErrors "shop/user_service/inner_layer/domain/errors"
 	userService "shop/user_service/inner_layer/service/user"
 	"strconv"
 

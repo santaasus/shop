@@ -8,7 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
 
-	domainErrors "shop/user_service/inner_layer/domain/errors"
+	domainErrors "github.com/santaasus/errors-handler"
 	security "shop/user_service/inner_layer/security"
 )
 
