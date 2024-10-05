@@ -3,13 +3,13 @@ package security
 import (
 	"encoding/json"
 	"fmt"
-	"os"
 	"strconv"
 	"time"
 
 	"errors"
 
 	domainErrors "github.com/santaasus/errors-handler"
+	root "shop"
 
 	"github.com/golang-jwt/jwt/v5"
 	"golang.org/x/crypto/bcrypt"
@@ -50,19 +50,16 @@ type SecureConfig struct {
 }
 
 func GenerateJWTToken(userID int, tokenType string) (appToken *AppToken, err error) {
-	file, err := os.ReadFile("config.json")
-	wd, _ := os.Getwd()
+	data, err := root.FileByName("config.json")
 
 	if err != nil {
-
-		err = fmt.Errorf("fatal error %s, for current dir %v \n", err.Error(), wd)
 		fmt.Print(err)
 		return
 	}
 
 	var config SecureConfig
 
-	err = json.Unmarshal(file, &config)
+	err = json.Unmarshal(data, &config)
 	if err != nil {
 		return
 	}
@@ -120,14 +117,14 @@ func GenerateJWTToken(userID int, tokenType string) (appToken *AppToken, err err
 }
 
 func VerifyTokenAndGetClaims(token, tokenType string) (claims jwt.MapClaims, err error) {
-	file, err := os.ReadFile("config.json")
+	data, err := root.FileByName("config.json")
 	if err != nil {
 		_ = fmt.Errorf("fatal error in config file: %s", err.Error())
 		return
 	}
 
 	var config SecureConfig
-	err = json.Unmarshal(file, &config)
+	err = json.Unmarshal(data, &config)
 	if err != nil {
 		return
 	}

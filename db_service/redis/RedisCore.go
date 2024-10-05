@@ -4,10 +4,10 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"os"
 	"time"
 
 	"github.com/go-redis/redis/v8"
+	root "shop"
 )
 
 type Config struct {
@@ -34,7 +34,7 @@ var ctx = context.Background()
 func connect() (*redis.Client, error) {
 	var config Config
 
-	data, err := os.ReadFile("config.json")
+	data, err := root.FileByName("config.json")
 	if err != nil {
 		return nil, err
 	}

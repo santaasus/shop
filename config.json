@@ -1,6 +1,10 @@
 {
     "Environment": "production",
-    "ServerPort": 8080,
+    "ServerPort": {
+        "user": 8080,
+        "products": 8081
+    },
+
     "Secure": {
         "JWTAcessSecure": "JWTAcessSecureTest",
         "JWTRefreshSecure": "JWTRefreshSecureTest",

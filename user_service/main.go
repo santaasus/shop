@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"os"
 	"runtime"
 	"time"
 
@@ -19,10 +18,15 @@ import (
 	errorHandler "github.com/santaasus/errors-handler"
 
 	limit "github.com/aviddiviner/gin-limit"
+	root "shop"
 )
 
-type ServerConfig struct {
-	ServerPort int `json:"ServerPort"`
+type Config struct {
+	ServerPort ServerPort `json:"ServerPort"`
+}
+
+type ServerPort struct {
+	Port int `json:"user"`
 }
 
 func main() {
@@ -44,13 +48,13 @@ func main() {
 }
 
 func startServer(router http.Handler) {
-	data, err := os.ReadFile("config.json")
+	data, err := root.FileByName("config.json")
 	if err != nil {
 		_ = fmt.Errorf("error for open: %s", err.Error())
 		panic(err)
 	}
 
-	var config ServerConfig
+	var config Config
 	err = json.Unmarshal(data, &config)
 	if err != nil {
 		_ = fmt.Errorf("error for unmarshal: %s", err.Error())
@@ -58,7 +62,7 @@ func startServer(router http.Handler) {
 	}
 
 	server := &http.Server{
-		Addr:           fmt.Sprintf(":%d", config.ServerPort),
+		Addr:           fmt.Sprintf(":%d", config.ServerPort.Port),
 		Handler:        router,
 		ReadTimeout:    time.Minute,
 		WriteTimeout:   time.Minute,

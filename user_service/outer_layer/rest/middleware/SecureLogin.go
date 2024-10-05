@@ -3,18 +3,18 @@ package middleware
 import (
 	"encoding/json"
 	"net/http"
-	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
 
 	domainErrors "github.com/santaasus/errors-handler"
+	root "shop"
 	security "shop/user_service/inner_layer/security"
 )
 
 func AuthJWTMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		file, err := os.ReadFile("config.json")
+		data, err := root.FileByName("config.json")
 		if err != nil {
 			appError := domainErrors.ThrowAppErrorWith(domainErrors.InternalServerError)
 			_ = c.Error(appError)
@@ -23,7 +23,7 @@ func AuthJWTMiddleware() gin.HandlerFunc {
 
 		var config security.SecureConfig
 
-		err = json.Unmarshal(file, &config)
+		err = json.Unmarshal(data, &config)
 		if err != nil {
 			return
 		}

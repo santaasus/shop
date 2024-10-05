@@ -1,4 +1,4 @@
-module github.com/santaasus/shop
+module shop
 
 go 1.22.4
 

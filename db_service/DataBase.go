@@ -59,13 +59,11 @@ func Connect() (*sql.DB, error) {
 
 	db, err := sql.Open("postgres", dataBaseUrl)
 	if err != nil {
-		// log.Fatalf("Error sql open: %v", err)
 		return nil, err
 	}
 
 	err = db.Ping()
 	if err != nil {
-		// log.Fatalf("Error connecting to the database: %v", err)
 		return nil, err
 	}
 
