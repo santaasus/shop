@@ -5,7 +5,7 @@
 2. Postgres
 3. JWT
 4. Docker
-5. Redis (will be in future)
+5. Redis
 6. RabbitMQ (?)
 
 ## Architecture Layers
@@ -15,17 +15,21 @@
 4. Rest: controller, middleware, route
 
 ## Services
-1. User service (in development)
+1. User service (✅)
 - Done features: 
   - Token generation & verify & update
   - Auth
   - User's crud
-2. Product service (not realised)
-3. Payment service (not realised)
-4. Order service (not realised)
-5. Notification service (not realised)
+  - Unit tests
+2. Product service (✅)
+- Done features: 
+  - Get all products
+  - Unit tests
+3. Order service (not realised)
+4. Notification service (not realised)
 
 
-## Tests (not realised)
+## API cases
+:pushpin: [click here](https://www.postman.com/santaasus/my-workspace/collection/1934442-4f0e4ed8-288a-4540-b2d2-736655eec6f4)
 
 
