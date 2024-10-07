@@ -24,9 +24,10 @@ CREATE TABLE IF NOT EXISTS products (
     product_name varchar(30) NULL
 )
 
-CREATE TABLE IF NOT EXISTS order (
+CREATE TABLE IF NOT EXISTS orders (
     id BIGSERIAL PRIMARY KEY,
-    product_id BIGSERIAL PRIMARY KEY,
+    user_id int,
+    product_id int,
     is_payed BOOLEAN DEFAULT NULL 
 )
 
@@ -50,3 +51,6 @@ VALUES (1, 'santaasus', 'test@yandex.ru', 'Vladimir', 'S', '$2a$10$ARGDNUz.xsfWA
 
 INSERT INTO products (id, product_name)
 VALUES (1, 'vibrator');
+
+INSERT INTO orders (id, user_id, product_id, is_payed)
+VALUES (1, 2, 3, false);

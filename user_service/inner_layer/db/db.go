@@ -123,7 +123,7 @@ func UpdateUserByParams(params map[string]any, userId int) error {
 	defer db.Close()
 
 	query, queryArgs := configureQueryBy(SQLUPDATE, params)
-	query += fmt.Sprintf(" WHERE id=%d", userId) + ";"
+	query += fmt.Sprintf(" WHERE id=%d;", userId)
 
 	row := db.QueryRow(query, queryArgs...)
 	err = row.Err()

@@ -2,7 +2,8 @@
     "Environment": "production",
     "ServerPort": {
         "user": 8080,
-        "products": 8081
+        "products": 8081,
+        "order": 8082
     },
 
     "Secure": {

@@ -17,7 +17,7 @@ func (s *Service) GetProducts() (*[]domain.Product, error) {
 	if err != nil {
 		return nil, &domainErrors.AppError{
 			Err:  errors.New("no products"),
-			Type: domainErrors.InternalServerError,
+			Type: domainErrors.NotFound,
 		}
 	}
 
