@@ -25,7 +25,11 @@
 - Done features: 
   - Get all products
   - Unit tests
-3. Order service (not realised)
+3. Order service (in dev)
+- Done features: 
+  - Token verify
+  - Cruds
+  - 
 4. Notification service (not realised)
 
 
