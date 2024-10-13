@@ -22,3 +22,4 @@ vendor/
 *.log
 
 .DS_Store
+__debug_bin*
