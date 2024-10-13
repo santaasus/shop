@@ -25,7 +25,10 @@
 - Done features: 
   - Get all products
   - Unit tests
-3. Order service (not realised)
+3. Order service (in dev)
+- Done features: 
+  - get/pay/add order(s)
+  -  
 4. Notification service (not realised)
 
 
