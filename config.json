@@ -6,13 +6,6 @@
         "order": 8082
     },
 
-    "Secure": {
-        "JWTAcessSecure": "JWTAcessSecureTest",
-        "JWTRefreshSecure": "JWTRefreshSecureTest",
-        "JWTAcessTimeMinute": 10,
-        "JWTRefreshTimeHour": 10
-    },
-
     "Endpoints": {
         "Site": "http://localhost:8084/"
     },

@@ -2,6 +2,7 @@ package auth
 
 import (
 	"errors"
+	jwtHandler "github.com/santaasus/JWTToken-handler"
 	errorsDomain "github.com/santaasus/errors-handler"
 	domain "shop/user_service/inner_layer/domain/user"
 	repository "shop/user_service/inner_layer/repository/user"
@@ -45,12 +46,12 @@ func (s *Service) Login(login *domain.LoginUser) (*AuthenticatedUser, error) {
 			}
 	}
 
-	accessToken, err := security.GenerateJWTToken(domainUser.ID, security.Access)
+	accessToken, err := jwtHandler.GenerateJWTToken(domainUser.ID, jwtHandler.Access)
 	if err != nil {
 		return nil, err
 	}
 
-	refreshToken, err := security.GenerateJWTToken(domainUser.ID, security.Refresh)
+	refreshToken, err := jwtHandler.GenerateJWTToken(domainUser.ID, jwtHandler.Refresh)
 	if err != nil {
 		return nil, err
 	}
@@ -64,7 +65,7 @@ func (s *Service) Login(login *domain.LoginUser) (*AuthenticatedUser, error) {
 }
 
 func (s *Service) AccessTokenByRefreshToken(refreshToken string) (*AuthenticatedUser, error) {
-	claims, err := security.VerifyTokenAndGetClaims(refreshToken, "refresh")
+	claims, err := jwtHandler.VerifyTokenAndGetClaims(refreshToken, "refresh")
 	if err != nil {
 		return nil, err
 	}
@@ -78,7 +79,7 @@ func (s *Service) AccessTokenByRefreshToken(refreshToken string) (*Authenticated
 			}
 	}
 
-	accessToken, err := security.GenerateJWTToken(domainUser.ID, "access")
+	accessToken, err := jwtHandler.GenerateJWTToken(domainUser.ID, "access")
 	if err != nil {
 		return nil, err
 	}

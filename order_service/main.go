@@ -10,7 +10,7 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 
-	"shop/products_service/outer_layer/route"
+	"shop/order_service/outer_layer/route"
 
 	db "shop/db_service"
 
@@ -18,8 +18,9 @@ import (
 
 	errorHandler "github.com/santaasus/errors-handler"
 
-	limit "github.com/aviddiviner/gin-limit"
 	root "shop"
+
+	limit "github.com/aviddiviner/gin-limit"
 )
 
 type Config struct {

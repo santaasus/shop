@@ -2,11 +2,12 @@ package controller
 
 import (
 	"errors"
-	"github.com/gin-gonic/gin"
-	domainErrors "github.com/santaasus/errors-handler"
 	"net/http"
 	"shop/order_service/inner_layer/service"
 	"strconv"
+
+	"github.com/gin-gonic/gin"
+	domainErrors "github.com/santaasus/errors-handler"
 )
 
 type Controller struct {
@@ -14,18 +15,8 @@ type Controller struct {
 }
 
 func (c *Controller) GetOrders(ctx *gin.Context) {
-	userId, err := strconv.Atoi(ctx.Param("user_id"))
-	if err != nil {
-		err = &domainErrors.AppError{
-			Err:  errors.New("wrong the id type"),
-			Type: domainErrors.ValidationError,
-		}
-		_ = ctx.Error(err)
-		return
-	}
-
 	token := ctx.GetHeader("Authorization")
-	orders, err := c.Service.GetOrders(token, userId)
+	orders, err := c.Service.GetOrders(token)
 	if err != nil {
 		_ = ctx.Error(err)
 		return
@@ -35,7 +26,7 @@ func (c *Controller) GetOrders(ctx *gin.Context) {
 }
 
 func (c *Controller) GetOrderById(ctx *gin.Context) {
-	id, err := strconv.Atoi(ctx.Param("id"))
+	id, err := strconv.Atoi(ctx.Query("id"))
 	if err != nil {
 		err = &domainErrors.AppError{
 			Err:  errors.New("wrong the id type"),
@@ -67,7 +58,7 @@ func (c *Controller) AddOrder(ctx *gin.Context) {
 	}
 
 	token := ctx.GetHeader("Authorization")
-	order, err := c.Service.AddOrder(token, request.ProductId, request.UserId)
+	order, err := c.Service.AddOrder(token, request.ProductId)
 	if err != nil {
 		_ = ctx.Error(err)
 		return
@@ -87,8 +78,7 @@ func (c *Controller) PayOrder(ctx *gin.Context) {
 		return
 	}
 
-	token := ctx.GetHeader("Authorization")
-	err := c.Service.PayOrder(token, request.OrderId)
+	err := c.Service.PayOrder(request.OrderId)
 	if err != nil {
 		_ = ctx.Error(err)
 		return

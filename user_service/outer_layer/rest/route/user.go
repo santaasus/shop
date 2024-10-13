@@ -10,7 +10,7 @@ import (
 func UserRoutes(router *gin.RouterGroup, controller *controller.Controller) {
 	group := router.Group(USER_GROUP)
 	JWTGroup := group.Group(EXIST_USER_GROUP)
-	JWTGroup.Use(middleware.AuthJWTMiddleware())
+	JWTGroup.Use(middleware.ValidateJWTMiddleware())
 	{
 		group.POST(CREATE_USER_PATH, controller.CreateUser)
 		JWTGroup.GET(GET_USER_PATH+":id", controller.GetUser)

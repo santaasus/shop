@@ -47,7 +47,7 @@ func GetOrderById(id int) (*domain.Order, error) {
 	}
 
 	var order = &domain.Order{}
-	if err := row.Scan(&order.ID, &order.ProductId, &order.IsPayed); err != nil {
+	if err := row.Scan(&order.ID, &order.UserId, &order.ProductId, &order.IsPayed); err != nil {
 		return nil, err
 	}
 
