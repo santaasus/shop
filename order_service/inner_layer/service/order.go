@@ -57,7 +57,7 @@ func (s *Service) AddOrder(token string, productId int) (*domain.Order, error) {
 		return nil, err
 	}
 
-	userId := claims["id"].(int)
+	userId := int(claims["id"].(float64))
 	if userId == 0 {
 		return nil, &domainErrors.AppError{
 			Err:  errors.New("token meta info validate error"),
@@ -67,6 +67,12 @@ func (s *Service) AddOrder(token string, productId int) (*domain.Order, error) {
 
 	order, err := s.Repository.AddOrder(productId, userId)
 	if err != nil {
+		err, isAppError := err.(*domainErrors.AppError)
+
+		if isAppError {
+			return nil, err
+		}
+
 		return nil, &domainErrors.AppError{
 			Err:  errors.New("something went wrong"),
 			Type: domainErrors.ValidationError,

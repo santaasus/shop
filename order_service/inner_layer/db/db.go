@@ -54,7 +54,7 @@ func GetOrderById(id int) (*domain.Order, error) {
 	return order, nil
 }
 
-func AddOrder(productId int, userId int) (*domain.Order, error) {
+func AddOrder(productId, userId int) (*domain.Order, error) {
 	db, err := dbCore.Connect()
 	if err != nil {
 		return nil, err
@@ -77,6 +77,21 @@ func AddOrder(productId int, userId int) (*domain.Order, error) {
 	}
 
 	return order, nil
+}
+
+func IsExistsOrder(productId, userId int) (bool, error) {
+	db, err := dbCore.Connect()
+	if err != nil {
+		return false, err
+	}
+
+	defer db.Close()
+
+	var isExists bool
+	query := "SELECT EXISTS(SELECT 1 FROM orders WHERE user_id=$1 AND product_id=$2);"
+	_ = db.QueryRow(query, userId, productId).Scan(&isExists)
+
+	return isExists, nil
 }
 
 func PayOrder(id int) error {

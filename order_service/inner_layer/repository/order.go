@@ -1,6 +1,8 @@
 package repository
 
 import (
+	"errors"
+	domainErrors "github.com/santaasus/errors-handler"
 	"shop/order_service/inner_layer/db"
 	domain "shop/order_service/inner_layer/domain/order"
 )
@@ -8,7 +10,7 @@ import (
 type IRepository interface {
 	GetOrders(userId int) (*[]domain.Order, error)
 	GetOrderById(id int) (*domain.Order, error)
-	AddOrder(productId int, userId int) (*domain.Order, error)
+	AddOrder(productId, userId int) (*domain.Order, error)
 	PayOrder(id int) error
 }
 
@@ -34,6 +36,18 @@ func (Repository) GetOrderById(id int) (*domain.Order, error) {
 }
 
 func (Repository) AddOrder(productId int, userId int) (*domain.Order, error) {
+	isExists, err := db.IsExistsOrder(productId, userId)
+	if err != nil {
+		return nil, err
+	}
+
+	if isExists {
+		return nil, &domainErrors.AppError{
+			Err:  errors.New("the order is exists"),
+			Type: domainErrors.ValidationError,
+		}
+	}
+
 	order, err := db.AddOrder(productId, userId)
 	if err != nil {
 		return nil, err
