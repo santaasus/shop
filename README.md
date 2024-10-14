@@ -25,12 +25,13 @@
 - Done features: 
   - Get all products
   - Unit tests
-3. Order service (in dev)
+3. Order service (✅)
 - Done features: 
   - get/pay/add order(s)
-  -  
-4. Notification service (not realised)
-
+  - Unit tests
+4. Notification service (in dev)
+- Done features: 
+  -
 
 ## API cases
 :pushpin: [click here](https://www.postman.com/santaasus/my-workspace/collection/1934442-4f0e4ed8-288a-4540-b2d2-736655eec6f4)
