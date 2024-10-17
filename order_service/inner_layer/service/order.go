@@ -14,7 +14,7 @@ type Service struct {
 	Repository repository.IRepository
 }
 
-func (s *Service) GetOrders(token string) (*[]domain.Order, error) {
+func (s *Service) GetOrders(token string, isFromCache bool) (*[]domain.Order, error) {
 	claims, err := jwtHandler.VerifyTokenAndGetClaims(token, jwtHandler.Access)
 	if err != nil {
 		return nil, err
@@ -28,7 +28,7 @@ func (s *Service) GetOrders(token string) (*[]domain.Order, error) {
 		}
 	}
 
-	orders, err := s.Repository.GetOrders(userId)
+	orders, err := s.Repository.GetOrders(userId, isFromCache)
 	if err != nil {
 		return nil, &domainErrors.AppError{
 			Err:  errors.New("no orders"),
@@ -40,7 +40,20 @@ func (s *Service) GetOrders(token string) (*[]domain.Order, error) {
 }
 
 func (s *Service) GetOrderById(token string, id int) (*domain.Order, error) {
-	order, err := s.Repository.GetOrderById(id)
+	claims, err := jwtHandler.VerifyTokenAndGetClaims(token, jwtHandler.Access)
+	if err != nil {
+		return nil, err
+	}
+
+	userId := int(claims["id"].(float64))
+	if userId == 0 {
+		return nil, &domainErrors.AppError{
+			Err:  errors.New("token meta info validate error"),
+			Type: domainErrors.NotFound,
+		}
+	}
+
+	order, err := s.Repository.GetOrderById(id, userId)
 	if err != nil {
 		return nil, &domainErrors.AppError{
 			Err:  errors.New("no order"),

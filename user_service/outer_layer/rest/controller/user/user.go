@@ -96,7 +96,8 @@ func (c *Controller) GetUser(ctx *gin.Context) {
 		return
 	}
 
-	user, err := c.Service.GetUser(userId)
+	cacheControl := ctx.GetHeader("Cache-Control")
+	user, err := c.Service.GetUser(userId, cacheControl != "no-cache")
 	if err != nil {
 		_ = ctx.Error(err)
 		return

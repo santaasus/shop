@@ -16,7 +16,8 @@ type Controller struct {
 
 func (c *Controller) GetOrders(ctx *gin.Context) {
 	token := ctx.GetHeader("Authorization")
-	orders, err := c.Service.GetOrders(token)
+	cacheControl := ctx.GetHeader("Cache-Control")
+	orders, err := c.Service.GetOrders(token, cacheControl != "no-cache")
 	if err != nil {
 		_ = ctx.Error(err)
 		return

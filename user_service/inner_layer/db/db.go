@@ -114,24 +114,30 @@ func GetUserByParams(params map[string]any) (*domain.User, error) {
 	return &user, nil
 }
 
-func UpdateUserByParams(params map[string]any, userId int) error {
+func UpdateUserByParams(params map[string]any, userId int) (*domain.User, error) {
 	db, err := dbCore.Connect()
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	defer db.Close()
 
 	query, queryArgs := configureQueryBy(SQLUPDATE, params)
-	query += fmt.Sprintf(" WHERE id=%d;", userId)
+	query += fmt.Sprintf(" WHERE id=%d", userId) + " RETURNING *;"
 
 	row := db.QueryRow(query, queryArgs...)
 	err = row.Err()
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	return nil
+	var user domain.User
+
+	if err := scanToUser(row, &user); err != nil {
+		return nil, err
+	}
+
+	return &user, nil
 }
 
 func configureQueryBy(sqlAction string, params map[string]any) (string, []any) {

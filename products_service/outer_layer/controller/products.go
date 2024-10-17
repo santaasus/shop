@@ -12,7 +12,8 @@ type Controller struct {
 }
 
 func (c *Controller) GetProducts(ctx *gin.Context) {
-	products, err := c.Service.GetProducts()
+	cacheControl := ctx.GetHeader("Cache-Control")
+	products, err := c.Service.GetProducts(cacheControl != "no-cache")
 	if err != nil {
 		_ = ctx.Error(err)
 		return

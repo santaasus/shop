@@ -13,7 +13,7 @@ import (
 )
 
 type IRepository interface {
-	GetUserByID(id int) (*domain.User, error)
+	GetUserByID(id int, isFromCache bool) (*domain.User, error)
 	GetUserByParams(params map[string]any) (*domain.User, error)
 	CreateUser(newUser *domain.User) (*domain.User, error)
 	UpdateUser(updateUser domain.UpdateUser, userId int) error
@@ -23,19 +23,21 @@ type IRepository interface {
 type Repository struct {
 }
 
-func (Repository) GetUserByID(id int) (*domain.User, error) {
-	value, _ := rDB.GetValueBy(rDB.USER + strconv.Itoa(id))
-	if value != "" {
-		var user domain.User
-		err := json.Unmarshal([]byte(value), &user)
+func (Repository) GetUserByID(id int, isFromCache bool) (*domain.User, error) {
+	if isFromCache {
+		value, _ := rDB.GetValueBy(rDB.USER + strconv.Itoa(id))
+		if value != "" {
+			var user domain.User
+			err := json.Unmarshal([]byte(value), &user)
 
-		return &user, err
+			return &user, err
+		}
 	}
 
 	user, err := db.GetUserByID(id)
 	if err != nil {
 		return nil, &domainErrors.AppError{
-			Err:  errors.New("user does not exist"),
+			Err:  errors.New("user does not exists"),
 			Type: domainErrors.ValidationError,
 		}
 	}
@@ -49,7 +51,7 @@ func (Repository) GetUserByParams(params map[string]any) (*domain.User, error) {
 	user, err := db.GetUserByParams(params)
 	if err != nil {
 		return nil, &domainErrors.AppError{
-			Err:  errors.New("user does not exist"),
+			Err:  errors.New("user does not exists"),
 			Type: domainErrors.ValidationError,
 		}
 	}
@@ -61,7 +63,7 @@ func (Repository) CreateUser(newUser *domain.User) (*domain.User, error) {
 	existUser, _ := db.GetUserByParams(map[string]any{"email": newUser.Email})
 	if existUser != nil {
 		return nil, &domainErrors.AppError{
-			Err:  errors.New("user already exist"),
+			Err:  errors.New("user already exists"),
 			Type: domainErrors.ValidationError,
 		}
 	}
@@ -83,10 +85,12 @@ func (Repository) UpdateUser(updateUser domain.UpdateUser, userId int) error {
 		}
 	}
 
-	err := db.UpdateUserByParams(params, userId)
+	user, err := db.UpdateUserByParams(params, userId)
 	if err != nil {
 		return err
 	}
+
+	rDB.SaveBy(rDB.USER+strconv.Itoa(userId), user)
 
 	return nil
 }

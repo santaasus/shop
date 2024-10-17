@@ -12,8 +12,8 @@ type Service struct {
 	Repository repository.IRepository
 }
 
-func (s *Service) GetProducts() (*[]domain.Product, error) {
-	products, err := s.Repository.GetProducts()
+func (s *Service) GetProducts(isFromCache bool) (*[]domain.Product, error) {
+	products, err := s.Repository.GetProducts(isFromCache)
 	if err != nil {
 		return nil, &domainErrors.AppError{
 			Err:  errors.New("no products"),

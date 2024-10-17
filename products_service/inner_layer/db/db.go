@@ -21,7 +21,7 @@ func GetProducts() (*[]domain.Product, error) {
 
 	products := []domain.Product{}
 
-	if rows.Next() {
+	for rows.Next() {
 		product := domain.Product{}
 		rows.Scan(&product.ID, &product.ProductName)
 		products = append(products, product)

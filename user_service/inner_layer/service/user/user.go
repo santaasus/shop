@@ -34,7 +34,7 @@ func (s *Service) UpdateUser(updateUser userDomain.UpdateUser, userId int) error
 }
 
 func (s *Service) DeleteUser(userId int) error {
-	_, err := s.GetUser(userId)
+	_, err := s.GetUser(userId, false)
 	if err != nil {
 		return err
 	}
@@ -47,8 +47,8 @@ func (s *Service) DeleteUser(userId int) error {
 	return nil
 }
 
-func (s *Service) GetUser(userId int) (*userDomain.User, error) {
-	user, err := s.Repository.GetUserByID(userId)
+func (s *Service) GetUser(userId int, isFromCache bool) (*userDomain.User, error) {
+	user, err := s.Repository.GetUserByID(userId, isFromCache)
 	if err != nil {
 		return nil, err
 	}

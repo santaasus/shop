@@ -26,7 +26,9 @@ type RedisConfig struct {
 }
 
 const (
-	USER = "user:"
+	USER     = "user:"
+	PRODUCTS = "products"
+	ORDER    = "order:"
 )
 
 var ctx = context.Background()

@@ -2,6 +2,7 @@ package user
 
 import (
 	domain "shop/user_service/inner_layer/domain/user"
+	"time"
 )
 
 func MapUpdateUserToParams(user domain.UpdateUser) (pararms map[string]any) {
@@ -10,6 +11,7 @@ func MapUpdateUserToParams(user domain.UpdateUser) (pararms map[string]any) {
 		"user_name":  user.UserName,
 		"first_name": user.FirstName,
 		"last_name":  user.LastName,
+		"updated_at": time.Now().Format(time.DateTime),
 	}
 
 	for k, v := range pararms {

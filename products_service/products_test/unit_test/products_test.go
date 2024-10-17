@@ -17,7 +17,7 @@ type mockRepository struct {
 }
 
 // Mock db logic
-func (mockRepository) GetProducts() (*[]domain.Product, error) {
+func (mockRepository) GetProducts(isFromCache bool) (*[]domain.Product, error) {
 	var products *[]domain.Product = &[]domain.Product{{ID: 1, ProductName: ""}}
 
 	return products, nil

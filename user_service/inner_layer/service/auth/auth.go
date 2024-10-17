@@ -70,7 +70,7 @@ func (s *Service) AccessTokenByRefreshToken(refreshToken string) (*Authenticated
 		return nil, err
 	}
 
-	domainUser, err := s.UserRepository.GetUserByID(claims["id"].(int))
+	domainUser, err := s.UserRepository.GetUserByID(claims["id"].(int), false)
 	if err != nil {
 		return &AuthenticatedUser{},
 			&errorsDomain.AppError{

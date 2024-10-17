@@ -50,7 +50,7 @@ var responseUser = &domain.User{
 }
 
 // Mock db logic
-func (mockRepository) GetUserByID(id int) (*domain.User, error) {
+func (mockRepository) GetUserByID(id int, isFromCache bool) (*domain.User, error) {
 	return responseUser, nil
 }
 

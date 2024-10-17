@@ -1,15 +1,19 @@
 package repository
 
 import (
+	"encoding/json"
 	"errors"
-	domainErrors "github.com/santaasus/errors-handler"
+	rDB "shop/db_service/redis"
 	"shop/order_service/inner_layer/db"
 	domain "shop/order_service/inner_layer/domain/order"
+	"strconv"
+
+	domainErrors "github.com/santaasus/errors-handler"
 )
 
 type IRepository interface {
-	GetOrders(userId int) (*[]domain.Order, error)
-	GetOrderById(id int) (*domain.Order, error)
+	GetOrders(userId int, isFromCache bool) (*[]domain.Order, error)
+	GetOrderById(id, userId int) (*domain.Order, error)
 	AddOrder(productId, userId int) (*domain.Order, error)
 	PayOrder(id int) error
 }
@@ -17,17 +21,29 @@ type IRepository interface {
 type Repository struct {
 }
 
-func (Repository) GetOrders(userId int) (*[]domain.Order, error) {
+func (Repository) GetOrders(userId int, isFromCache bool) (*[]domain.Order, error) {
+	if isFromCache {
+		value, _ := rDB.GetValueBy(rDB.ORDER + strconv.Itoa(userId))
+		if value != "" {
+			var orders []domain.Order
+			err := json.Unmarshal([]byte(value), &orders)
+
+			return &orders, err
+		}
+	}
+
 	orders, err := db.GetOrders(userId)
 	if err != nil {
 		return nil, err
 	}
 
+	rDB.SaveBy(rDB.ORDER+strconv.Itoa(userId), orders)
+
 	return orders, nil
 }
 
-func (Repository) GetOrderById(id int) (*domain.Order, error) {
-	order, err := db.GetOrderById(id)
+func (Repository) GetOrderById(id, userId int) (*domain.Order, error) {
+	order, err := db.GetOrderById(id, userId)
 	if err != nil {
 		return nil, err
 	}

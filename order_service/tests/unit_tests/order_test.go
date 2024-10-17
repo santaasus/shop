@@ -34,7 +34,7 @@ type requestConfig struct {
 	header  map[string]string
 }
 
-func (mockRepository) GetOrderById(id int) (*domain.Order, error) {
+func (mockRepository) GetOrderById(id, userId int) (*domain.Order, error) {
 	order := &domain.Order{
 		ID:        1,
 		UserId:    1,
@@ -45,7 +45,7 @@ func (mockRepository) GetOrderById(id int) (*domain.Order, error) {
 	return order, nil
 }
 
-func (mockRepository) GetOrders(userId int) (*[]domain.Order, error) {
+func (mockRepository) GetOrders(userId int, isFromCache bool) (*[]domain.Order, error) {
 	orders := &[]domain.Order{{
 		ID:        1,
 		UserId:    1,

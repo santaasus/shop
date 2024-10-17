@@ -31,7 +31,7 @@ func GetOrders(userId int) (*[]domain.Order, error) {
 	return &orders, nil
 }
 
-func GetOrderById(id int) (*domain.Order, error) {
+func GetOrderById(id, userId int) (*domain.Order, error) {
 	db, err := dbCore.Connect()
 	if err != nil {
 		return nil, err
@@ -39,8 +39,8 @@ func GetOrderById(id int) (*domain.Order, error) {
 
 	defer db.Close()
 
-	query := "SELECT * FROM orders WHERE id=$1"
-	row := db.QueryRow(query, id)
+	query := "SELECT * FROM orders WHERE id=$1 AND user_id=$1"
+	row := db.QueryRow(query, id, userId)
 	err = row.Err()
 	if err != nil {
 		return nil, err
