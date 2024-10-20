@@ -30,7 +30,7 @@
   - get/pay/add order(s)
   - Unit tests
 4. Notification service (in dev)
-- Done features: 
+- Done features (✅)
   - SMTP's (mock)server & client
   - Unit tests
 
