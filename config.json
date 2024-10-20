@@ -3,11 +3,8 @@
     "ServerPort": {
         "user": 8080,
         "products": 8081,
-        "order": 8082
-    },
-
-    "Endpoints": {
-        "Site": "http://localhost:8084/"
+        "order": 8082,
+        "notification": 8083
     },
 
     "Database": {
@@ -28,5 +25,10 @@
             "password": "youShouldChangeThisPassword",
             "version": 0
         }
+    },
+
+    "SMTP": {
+        "smtp_source": "localhost:1025",
+        "mail_from": "fromTest@gmail.com"
     }
 }

@@ -31,7 +31,8 @@
   - Unit tests
 4. Notification service (in dev)
 - Done features: 
-  -
+  - SMTP's (mock)server & client
+  - Unit tests
 
 ## API cases
 :pushpin: [click here](https://www.postman.com/santaasus/my-workspace/collection/1934442-4f0e4ed8-288a-4540-b2d2-736655eec6f4)
