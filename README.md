@@ -6,7 +6,7 @@
 3. JWT
 4. Docker
 5. Redis
-6. RabbitMQ (?)
+6. RabbitMQ
 
 ## Architecture Layers
 1. DB core
@@ -29,8 +29,8 @@
 - Done features: 
   - get/pay/add order(s)
   - Unit tests
-4. Notification service (in dev)
-- Done features (✅)
+4. Notification service (✅)
+- Done features:
   - SMTP's (mock)server & client
   - Unit tests
 
