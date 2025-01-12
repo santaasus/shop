@@ -30,5 +30,12 @@
     "SMTP": {
         "smtp_source": "localhost:1025",
         "mail_from": "fromTest@gmail.com"
+    },
+
+    "AMQP": {
+        "host": "localhost",
+        "port": 5672,
+        "user": "guest",
+        "password": "guest"
     }
 }

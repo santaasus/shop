@@ -1,0 +1,5 @@
+package amqpcore
+
+func main() {
+
+}

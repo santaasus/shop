@@ -78,3 +78,7 @@ func startServer(router http.Handler) {
 
 	fmt.Printf("server was started %v", server)
 }
+
+func pop(runes []rune) []rune {
+	return append(runes[:0], runes[1:]...)
+}
